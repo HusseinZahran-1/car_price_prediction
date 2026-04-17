@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login | CarPriceAI</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <nav class="navbar">
+        <div class="container">
+            <div class="logo">CarPriceAI</div>
+            <div>
+                <a href="index.html" class="btn btn-outline">
+                    <i class="fas fa-home"></i> Home
+                </a>
+            </div>
+        </div>
+    </nav>
+
+    <div class="container">
+        <div style="max-width: 500px; margin: 50px auto;">
+            <div class="card" style="animation: slideUp 0.5s ease;">
+                <div style="text-align: center; margin-bottom: 30px;">
+                    <div style="width: 80px; height: 80px; background: linear-gradient(135deg, var(--primary), var(--secondary)); 
+                                border-radius: 50%; display: flex; align-items: center; justify-content: center; 
+                                margin: 0 auto 20px;">
+                        <i class="fas fa-lock" style="font-size: 40px;"></i>
+                    </div>
+                    <h2>Welcome Back</h2>
+                    <p style="color: var(--gray); margin-top: 10px;">Sign in to continue</p>
+                </div>
+
+                <form id="loginForm">
+                    <div class="form-group">
+                        <label><i class="fas fa-envelope"></i> Email</label>
+                        <input type="email" id="email" placeholder="Enter your email" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label><i class="fas fa-lock"></i> Password</label>
+                        <input type="password" id="password" placeholder="Enter your password" required>
+                    </div>
+
+                    <button type="submit" class="btn btn-primary" style="width: 100%;">
+                        <i class="fas fa-sign-in-alt"></i> Sign In
+                    </button>
+                </form>
+
+                <div style="text-align: center; margin-top: 20px;">
+                    <p style="color: var(--gray);">
+                        Demo credentials: <br>
+                        Email: demo@carpriceai.com<br>
+                        Password: demo123
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>

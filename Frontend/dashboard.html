@@ -1,0 +1,286 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard | CarPriceAI</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="style.css">
+    <style>
+        /* Quick Stats Bar */
+        .stats-bar {
+            display: flex;
+            gap: 20px;
+            margin-bottom: 30px;
+            flex-wrap: wrap;
+        }
+        .stat-item {
+            flex: 1;
+            background: var(--glass);
+            backdrop-filter: blur(10px);
+            border-radius: 15px;
+            padding: 20px;
+            text-align: center;
+            border: 1px solid var(--glass-border);
+        }
+        .stat-value {
+            font-size: 28px;
+            font-weight: bold;
+            color: var(--primary);
+        }
+        .stat-label {
+            font-size: 12px;
+            color: var(--gray);
+            margin-top: 5px;
+        }
+        
+        /* Info Box */
+        .info-box {
+            background: rgba(67, 97, 238, 0.1);
+            border-left: 4px solid var(--primary);
+            padding: 15px;
+            border-radius: 12px;
+            margin-bottom: 20px;
+            font-size: 14px;
+        }
+        
+        /* Tag Input */
+        .tag-input {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+            padding: 8px;
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 12px;
+            min-height: 50px;
+        }
+        .tag {
+            background: var(--primary);
+            padding: 5px 12px;
+            border-radius: 20px;
+            font-size: 12px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        .tag i {
+            cursor: pointer;
+            font-size: 10px;
+        }
+    </style>
+</head>
+<body>
+    <nav class="navbar">
+        <div class="container">
+            <div class="logo">CarPriceAI</div>
+            <div>
+                <span style="margin-right: 20px;">
+                    <i class="fas fa-user-circle"></i> <span id="userEmail">User</span>
+                </span>
+                <button onclick="logout()" class="btn btn-outline">
+                    <i class="fas fa-sign-out-alt"></i> Logout
+                </button>
+            </div>
+        </div>
+    </nav>
+
+    <div class="container">
+        <!-- Stats Bar -->
+        <div class="stats-bar">
+            <div class="stat-item">
+                <div class="stat-value" id="predictionsCount">0</div>
+                <div class="stat-label">Total Predictions</div>
+            </div>
+            <div class="stat-item">
+                <div class="stat-value" id="avgPrice">$0</div>
+                <div class="stat-label">Average Price</div>
+            </div>
+            <div class="stat-item">
+                <div class="stat-value" id="supportedBrands">250+</div>
+                <div class="stat-label">Supported Models</div>
+            </div>
+        </div>
+
+        <div class="grid-2">
+            <!-- Prediction Form -->
+            <div class="card">
+                <h2 style="margin-bottom: 25px;">
+                    <i class="fas fa-car"></i> Car Specifications
+                </h2>
+                
+                <div class="info-box">
+                    <i class="fas fa-info-circle"></i> 
+                    Enter any car brand and model - our AI will predict the price!
+                </div>
+                
+                <form id="predictionForm">
+                    <div class="grid-2">
+                        <div class="form-group floating">
+                            <label><i class="fas fa-trademark"></i> Brand</label>
+                            <input type="text" id="brand" 
+                                   placeholder="Any brand (e.g., Tesla, BMW, Ferrari, Lamborghini)"
+                                   list="brandSuggestions" autocomplete="off">
+                            <datalist id="brandSuggestions">
+                                <option value="Tesla">
+                                <option value="BMW">
+                                <option value="Audi">
+                                <option value="Mercedes">
+                                <option value="Toyota">
+                                <option value="Honda">
+                                <option value="Ford">
+                                <option value="Kia">
+                                <option value="Hyundai">
+                                <option value="Nissan">
+                                <option value="Chevrolet">
+                                <option value="Volkswagen">
+                                <option value="Porsche">
+                                <option value="Ferrari">
+                                <option value="Lamborghini">
+                                <option value="Maserati">
+                                <option value="Jaguar">
+                                <option value="Land Rover">
+                                <option value="Volvo">
+                                <option value="Mazda">
+                                <option value="Subaru">
+                                <option value="Mitsubishi">
+                                <option value="Suzuki">
+                                <option value="Renault">
+                                <option value="Peugeot">
+                                <option value="Citroen">
+                                <option value="Fiat">
+                                <option value="Jeep">
+                                <option value="Chrysler">
+                                <option value="Dodge">
+                                <option value="Ram">
+                                <option value="GMC">
+                                <option value="Cadillac">
+                                <option value="Lincoln">
+                                <option value="Acura">
+                                <option value="Lexus">
+                                <option value="Infiniti">
+                                <option value="Genesis">
+                            </datalist>
+                        </div>
+
+                        <div class="form-group floating">
+                            <label><i class="fas fa-code-branch"></i> Model</label>
+                            <input type="text" id="model" 
+                                   placeholder="Any model (e.g., Model 3, X5, 911, Aventador)"
+                                   required>
+                        </div>
+                    </div>
+
+                    <div class="grid-2">
+                        <div class="form-group floating">
+                            <label><i class="fas fa-calendar"></i> Year</label>
+                            <input type="number" id="year" min="1980" max="2026" placeholder="2020" required>
+                        </div>
+
+                        <div class="form-group floating">
+                            <label><i class="fas fa-oil-can"></i> Engine Size (L)</label>
+                            <input type="number" id="engine_size" step="0.1" placeholder="2.0" required>
+                        </div>
+                    </div>
+
+                    <div class="grid-2">
+                        <div class="form-group">
+                            <label><i class="fas fa-gas-pump"></i> Fuel Type</label>
+                            <select id="fuel_type" required>
+                                <option value="Petrol">Petrol</option>
+                                <option value="Diesel">Diesel</option>
+                                <option value="Hybrid">Hybrid</option>
+                                <option value="Electric">Electric</option>
+                            </select>
+                        </div>
+
+                        <div class="form-group">
+                            <label><i class="fas fa-cogs"></i> Transmission</label>
+                            <select id="transmission" required>
+                                <option value="Automatic">Automatic</option>
+                                <option value="Manual">Manual</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="grid-2">
+                        <div class="form-group floating">
+                            <label><i class="fas fa-road"></i> Mileage (km)</label>
+                            <input type="number" id="mileage" placeholder="50000" required>
+                        </div>
+
+                        <div class="form-group">
+                            <label><i class="fas fa-clipboard-list"></i> Condition</label>
+                            <select id="condition" required>
+                                <option value="New">New (0-1000 km)</option>
+                                <option value="Like New">Like New (1000-20000 km)</option>
+                                <option value="Used">Used (20000+ km)</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <button type="submit" class="btn btn-primary" style="width: 100%;">
+                        <i class="fas fa-chart-line"></i> Predict Price
+                    </button>
+                </form>
+            </div>
+
+            <!-- Results Section -->
+            <div class="card">
+                <h2 style="margin-bottom: 25px;">
+                    <i class="fas fa-chart-bar"></i> Prediction Result
+                </h2>
+                
+                <div id="loading" class="loading">
+                    <div class="spinner-3d"></div>
+                    <p style="margin-top: 20px;">AI analyzing market data...</p>
+                </div>
+
+                <div id="result" style="display: none;">
+                    <div class="result-card">
+                        <i class="fas fa-dollar-sign" style="font-size: 24px; color: var(--success);"></i>
+                        <div class="price" id="predictedPrice">$0.00</div>
+                        <p style="color: var(--gray);" id="predictionMessage">Estimated Market Value</p>
+                        <hr style="margin: 20px 0; border-color: var(--glass-border);">
+                        <div style="text-align: left;">
+                            <p><i class="fas fa-chart-line"></i> Confidence: <strong id="confidence">High</strong></p>
+                            <p><i class="fas fa-clock"></i> Based on real-time data</p>
+                            <p><i class="fas fa-microchip"></i> AI Model: Random Forest (98% accuracy)</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div id="error" style="display: none;" class="alert alert-error">
+                    <i class="fas fa-exclamation-triangle"></i> <span id="errorMessage"></span>
+                </div>
+            </div>
+        </div>
+
+        <!-- Recent Predictions -->
+        <div class="card" style="margin-top: 30px;">
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;">
+                <h2><i class="fas fa-history"></i> Recent Predictions</h2>
+                <button onclick="clearHistory()" class="btn btn-outline" style="padding: 8px 16px;">
+                    <i class="fas fa-trash-alt"></i> Clear All
+                </button>
+            </div>
+            <div id="historyList">
+                <p style="text-align: center; color: var(--gray);">
+                    <i class="fas fa-info-circle"></i> No predictions yet. Try predicting a car!
+                </p>
+            </div>
+        </div>
+        
+        <!-- Popular Cars Suggestions -->
+        <div class="card" style="margin-top: 30px;">
+            <h2 style="margin-bottom: 20px;">
+                <i class="fas fa-fire"></i> Popular Suggestions
+            </h2>
+            <div class="tag-input" id="suggestionsList">
+                <!-- Will be filled with popular cars -->
+            </div>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
